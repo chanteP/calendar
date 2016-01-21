@@ -33,8 +33,8 @@ calendar.getInfo = function(date){
         date = calendar.parseDate(date);
     }
     var y = date.getFullYear(),
-        M = date.getMonth(),
-        d = date.getDate();
+        M = +date.getMonth() + 1,
+        d = +date.getDate();
     return {
         year : date.getFullYear(),
         month : date.getMonth(),
