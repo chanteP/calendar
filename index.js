@@ -12,7 +12,7 @@
 */
 var MS = 1000 * 60 * 60 * 24;
 
-var calendar = module.exports = function(date){
+var calendar = function(date){
     date = calendar.parseDate(date);
     var cur = calendar.getInfo(date);
 
@@ -20,6 +20,7 @@ var calendar = module.exports = function(date){
     var monthInfo = calendar.getInfo(monthFistDay);
 
     var result = [];
+    result.currentDate = cur;
 
     for(var i = 0; i < 42; i++){
         var day = new Date(monthInfo.year, monthInfo.month, monthInfo.date - monthInfo.day - (monthInfo.day ? 0 : 7) + i);
@@ -28,14 +29,26 @@ var calendar = module.exports = function(date){
     return result;
 }
 calendar.getInfo = function(date){
+    if(typeof date === 'string'){
+        date = calendar.parseDate(date);
+    }
+    var y = date.getFullYear(),
+        M = date.getMonth(),
+        d = date.getDate();
     return {
         year : date.getFullYear(),
         month : date.getMonth(),
         date : date.getDate(),
         day : date.getDay(),
+        dateString : [y, M < 10 ? '0' + M : M, d < 10 ? '0' + d : d],
         timestamp : date.getTime(),
         id : Math.floor(date.getTime() / MS)
     }
+}
+calendar.transId = function(id){
+    var date = new Date(id * MS);
+    var info = calendar.getInfo(date);
+    return info.year + '-' + (info.month + 1) + '-' + info.date;
 }
 calendar.parseDate = function(stringData){
     //Date
@@ -62,3 +75,4 @@ calendar.parseDate = function(stringData){
     date.setSeconds(0);
     return date;
 }
+export default calendar
