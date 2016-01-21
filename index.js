@@ -40,7 +40,7 @@ calendar.getInfo = function(date){
         month : date.getMonth(),
         date : date.getDate(),
         day : date.getDay(),
-        dateString : [y, M < 10 ? '0' + M : M, d < 10 ? '0' + d : d],
+        dateString : [y, M < 10 ? '0' + M : M, d < 10 ? '0' + d : d].join('-'),
         timestamp : date.getTime(),
         id : Math.floor(date.getTime() / MS)
     }
